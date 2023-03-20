@@ -1,2 +1,3 @@
 # genericcontainer
-Generics wrappers of Go's standard conatiner libraries
+
+Generics wrappers of Go's standard container libraries
