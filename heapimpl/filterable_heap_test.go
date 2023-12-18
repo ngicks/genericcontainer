@@ -128,4 +128,34 @@ func TestHeapWithAdditionalProps(t *testing.T) {
 			}
 		}
 	})
+
+	t.Run("Clone for T which does not implement Less[T]", func(t *testing.T) {
+		h := heapimpl.NewFilterableHeapHooks[int](func(i, j int) bool { return i < j }, heapimpl.HeapMethods[int]{})
+
+		h.Push(7)
+		h.Push(4)
+		h.Push(1)
+		h.Push(6)
+		h.Push(5)
+		h.Push(3)
+		h.Push(2)
+
+		cloned := h.Clone()
+
+		var out slice.Deque[int]
+		for h.Len() > 0 {
+			out.PushBack(int(h.Pop()))
+		}
+
+		var outCloned slice.Deque[int]
+		for cloned.Len() > 0 {
+			outCloned.PushBack(int(cloned.Pop()))
+		}
+
+		for i := 0; i < len(out); i++ {
+			if out[i] != outCloned[i] {
+				t.Fatalf("not equal. expected = %d, actual = %d", out[i], outCloned[i])
+			}
+		}
+	})
 }

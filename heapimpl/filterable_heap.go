@@ -91,7 +91,7 @@ func (h *FilterableHeap[T]) Clone() *FilterableHeap[T] {
 	cloned := make([]T, len(h.internal.Inner))
 	copy(cloned, h.internal.Inner)
 
-	n := NewFilterableHeap[T]()
+	n := NewFilterableHeapHooks[T](h.internal.less, h.internal.methods)
 	n.internal.Inner = cloned
 	return n
 }
